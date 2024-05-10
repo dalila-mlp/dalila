@@ -1,0 +1,28 @@
+networks:
+  dalila-net:
+    driver: bridge
+    name: "dalila-net"
+
+services:
+  dalila-client-service:
+    build:
+      context: "./client/"
+      dockerfile: "./docker/dev/Dockerfile"
+    container_name: "dalila-client-container"
+    networks:
+      - "dalila-net"
+    ports:
+      - "5000:5000"
+    volumes:
+      - "./client/:/client/"
+  dalila-api_php-service:
+    build:
+      context: "./api/"
+      dockerfile: "./docker/dev/php/Dockerfile"
+    container_name: "dalila-api_php-container"
+    networks:
+      - "dalila-net"
+    ports:
+      - "9000:9000"
+    volumes:
+      - "./api/:/api/"
