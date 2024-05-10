@@ -1,12 +1,16 @@
 SHELL := /bin/bash
 .DEFAULT_GOAL = help
 
-COMPOSE = docker compose
+COMPOSE = docker compose --env-file=.env.local
 FILE = -f docker-compose.yml
 EXEC = ${COMPOSE} exec
 RUN = ${COMPOSE} run
 
-DALILA-API_PHP = dalila-api_php-service
+DALILA-CLIENT = dalila-client
+DALILA-API_PHP = dalila-api_php
+DALILA-API_NGINX = dalila-api_nginx
+DALILA-POSTGRE = dalila-postgres
+DALILA-PGADMIN = dalila-pgadmin
 
 .PHONY: help
 # Show this help message.
@@ -15,7 +19,7 @@ help:
 
 .PHONY: start
 # Start project.
-start: perm up cc perm
+start: perm sr up cc perm
 
 .PHONY: up
 # Kill all containers, rebuild and up them.
@@ -50,11 +54,6 @@ purge:
 	docker container prune -f
 	docker image prune -f
 
-.PHONY: logs-client
-# Prompt logs of container.
-logs:
-	docker logs --follow dalila-client-container
-
 .PHONY: ps
 # List all containers.
 ps:
@@ -75,12 +74,12 @@ restart:
 .PHONY: client
 # Enter in client container.
 client:
-	${EXEC} dalila-client-service ${SHELL}
+	${EXEC} ${DALILA-CLIENT} ${SHELL}
 
 .PHONY: api
 # Enter in api_php container.
 api:
-	${EXEC} ${DALILA-API_PHP} ${SHELL}
+	${EXEC} ${DALILA-API_PHP}-service ${SHELL}
 
 ##
 ## Symfony
@@ -89,5 +88,34 @@ api:
 .PHONY: cc
 # Clear the cache.
 cc:
-	${EXEC} ${DALILA-API_PHP} symfony c:c --no-warmup
-	${EXEC} ${DALILA-API_PHP} symfony c:warmup
+	${EXEC} ${DALILA-API_PHP}-service symfony console c:c --no-warmup
+	${EXEC} ${DALILA-API_PHP}-service symfony console c:warmup
+
+##
+## Logs
+##
+
+.PHONY: logs-client
+# Prompt logs of client container.
+logs-client:
+	docker logs --follow ${DALILA-CLIENT}-container
+
+.PHONY: logs-api_php
+# Prompt logs of api_php container.
+logs-api_php:
+	docker logs --follow ${DALILA-API_PHP}-container
+
+.PHONY: logs-api_nginx
+# Prompt logs of api_nginx container.
+logs-api_nginx:
+	docker logs --follow ${DALILA-API_NGINX}-container
+
+.PHONY: logs-postgres
+# Prompt logs of postgres container.
+logs-postgres:
+	docker logs --follow ${DALILA-POSTGRE}-container
+
+.PHONY: logs-pgadmin
+# Prompt logs of pgadmin container.
+logs-pgadmin:
+	docker logs --follow ${DALILA-PGADMIN}-container

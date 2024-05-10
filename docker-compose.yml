@@ -1,6 +1,6 @@
 networks:
   dalila-net:
-    driver: bridge
+    driver: "bridge"
     name: "dalila-net"
 
 services:
@@ -26,3 +26,41 @@ services:
       - "9000:9000"
     volumes:
       - "./api/:/api/"
+  dalila-api_nginx-service:
+    container_name: "dalila-api_nginx-container"
+    depends_on:
+      - "dalila-api_php-service"
+      - "dalila-postgres-service"
+    image: "nginx:stable-alpine"
+    networks:
+      - "dalila-net"
+    ports:
+      - "80:80"
+    volumes:
+      - "./api/:/api/"
+      - "./api/docker/dev/nginx/default.conf:/etc/nginx/conf.d/default.conf"
+  dalila-postgres-service:
+    container_name: "dalila-postgres-container"
+    environment:
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+    image: "postgres"
+    ports:
+      - "5432:5432"
+    restart: "always"
+    shm_size: "128mb"  # set shared memory limit when using docker-compose
+    volumes:
+      - "./postgres/:/var/lib/postgresql/"
+  dalila-pgadmin-service:
+    container_name: "dalila-pgadmin-container"
+    depends_on:
+      - "dalila-postgres-service"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "${PGADMIN_EMAIL}"
+      PGADMIN_DEFAULT_PASSWORD: "${PGADMIN_PASSWORD}"
+    image: "dpage/pgadmin4"
+    ports:
+      - "8888:80"
+    restart: "always"
+    volumes:
+      - "./pgadmin/:/var/lib/pgadmin/"
