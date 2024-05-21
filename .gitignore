@@ -4,5 +4,6 @@
 
 /pgadmin/*
 !/pgadmin/.gitkeep
+!/pgadmin/docker/*/example.json
 /postgres/*
 !/postgres/.gitkeep

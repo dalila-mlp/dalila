@@ -19,7 +19,7 @@ help:
 
 .PHONY: start
 # Start project.
-start: perm sr up cc perm
+start: perm clear sr up cc perm
 
 .PHONY: up
 # Kill all containers, rebuild and up them.
@@ -44,6 +44,12 @@ rm:
 .PHONY: sr
 # Stop and remove all containers.
 sr: stop rm
+
+.PHONY: clear
+# Clear projet.
+clear:
+	rm -rf ./pgadmin/azurecredentialcache ./pgadmin/sessions/ ./pgadmin/storage
+	rm -f ./pgadmin/pgadmin4*
 
 .PHONY: purge
 # Stop and remove all containers and prune volumes, networks, containers and images.

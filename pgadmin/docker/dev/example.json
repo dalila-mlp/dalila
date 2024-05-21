@@ -1,0 +1,14 @@
+{
+    "Servers": {
+        "1": {
+            "Name": "My Server",
+            "Group": "Servers",
+            "Host": "localhost",
+            "Port": 5432,
+            "MaintenanceDB": "postgres",
+            "Username": "your_username",
+            "Password": "your_password",
+            "SSLMode": "prefer"
+        }
+    }
+}
