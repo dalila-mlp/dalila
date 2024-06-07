@@ -5,12 +5,19 @@ COMPOSE = docker compose --env-file=.env.local
 FILE = -f docker-compose.yml
 EXEC = ${COMPOSE} exec
 RUN = ${COMPOSE} run
+CONSOLE = symfony console
 
 DALILA-CLIENT = dalila-client
 DALILA-API_PHP = dalila-api_php
 DALILA-API_NGINX = dalila-api_nginx
-DALILA-POSTGRE = dalila-postgres
+DALILA-POSTGRES = dalila-postgres
 DALILA-PGADMIN = dalila-pgadmin
+
+EXEC-API_PHP = ${EXEC} ${DALILA-API_PHP}-service
+
+##
+## General
+##
 
 .PHONY: help
 # Show this help message.
@@ -19,7 +26,7 @@ help:
 
 .PHONY: start
 # Start project.
-start: perm clear sr up cc perm
+start: perm clear sr up cpr-i db cc perm
 
 .PHONY: up
 # Kill all containers, rebuild and up them.
@@ -77,25 +84,102 @@ restart:
 	clear
 	make perm sr up logs
 
-.PHONY: client
-# Enter in client container.
-client:
-	${EXEC} ${DALILA-CLIENT} ${SHELL}
-
-.PHONY: api
-# Enter in api_php container.
-api:
-	${EXEC} ${DALILA-API_PHP}-service ${SHELL}
-
 ##
 ## Symfony
 ##
+
+EXEC_SC = ${EXEC-API_PHP} ${CONSOLE}
 
 .PHONY: cc
 # Clear the cache.
 cc:
 	${EXEC} ${DALILA-API_PHP}-service symfony console c:c --no-warmup
 	${EXEC} ${DALILA-API_PHP}-service symfony console c:warmup
+
+##
+## Symfony - Database
+##
+
+DOCTRINE = ${EXEC_SC} doctrine:
+DOCTRINE_DB = ${DOCTRINE}d:
+DOCTRINE_SCHEMA = ${DOCTRINE}s:
+DOCTRINE_FIXTURES = ${DOCTRINE}f:
+DOCTRINE_CACHE = ${DOCTRINE}cache:
+DOCTRINE_CACHE_CLEAR = ${DOCTRINE_CACHE}clear-
+
+.PHONY: build
+# Drop, create db, update schema and load fixtures
+db: db-cache db-d db-c db-su db-fl
+
+.PHONY: db-d
+# Drop database
+db-d:
+	${DOCTRINE_DB}d --if-exists -f
+
+.PHONY: db-c
+# Create database
+db-c:
+	${DOCTRINE_DB}c --if-not-exists
+
+.PHONY: db-su
+# Update database schema
+db-su:
+	${DOCTRINE_SCHEMA}u -f
+
+.PHONY: db-v
+# Check database schema
+db-v:
+	${DOCTRINE_SCHEMA}v
+
+.PHONY: db-fl
+# Load fixtures
+db-fl:
+	${DOCTRINE_FIXTURES}l -n
+
+.PHONY: db-m
+# Make migrations
+db-m:
+	${DOCTRINE}m:m
+
+.PHONY: db-cache
+# Clear doctrine cache
+db-cache: db-cache-r db-cache-q db-cache-m
+
+.PHONY: db-cache-r
+# Clear result
+db-cache-r:
+	${DOCTRINE_CACHE_CLEAR}result
+
+.PHONY: db-cache-q
+# Clear query
+db-cache-q:
+	${DOCTRINE_CACHE_CLEAR}query
+
+.PHONY: db-cache-m
+# Clear metadata
+db-cache-m:
+	${DOCTRINE_CACHE_CLEAR}metadata
+
+##
+## Composer
+##
+
+COMPOSER = ${EXEC-API_PHP} composer
+
+.PHONY: cpr
+# Composer in php-container with your command, c='{value}''
+cpr:
+	${COMPOSER} $(c)
+
+.PHONY: cpr-i
+# Install php dependencies
+cpr-i:
+	${COMPOSER} install
+
+.PHONY: cpr-u
+# Update php dependencies
+cpr-u:
+	${COMPOSER} update
 
 ##
 ## Logs
@@ -116,12 +200,36 @@ logs-api_php:
 logs-api_nginx:
 	docker logs --follow ${DALILA-API_NGINX}-container
 
-.PHONY: logs-postgres
-# Prompt logs of postgres container.
-logs-postgres:
-	docker logs --follow ${DALILA-POSTGRE}-container
+.PHONY: logs-gres
+# Prompt logs of gres container.
+logs-gres:
+	docker logs --follow ${DALILA-POSTGRES}-container
 
 .PHONY: logs-pgadmin
 # Prompt logs of pgadmin container.
 logs-pgadmin:
 	docker logs --follow ${DALILA-PGADMIN}-container
+
+##
+## Containers
+##
+
+.PHONY: client
+# Enter in client container.
+client:
+	${EXEC} ${DALILA-CLIENT} ${SHELL}
+
+.PHONY: api
+# Enter in api_php container.
+api:
+	${EXEC} ${DALILA-API_PHP}-service ${SHELL}
+
+.PHONY: gre
+# Enter in postgre container.
+gre:
+	${EXEC} ${DALILA-POSTGRES}-service ${SHELL}
+
+.PHONY: pgadmin
+# Enter in pgadmin container.
+pgadmin:
+	${EXEC} ${DALILA-PGADMIN}-service ${SHELL}
