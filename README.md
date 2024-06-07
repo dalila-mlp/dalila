@@ -9,7 +9,7 @@ making automated predictions and analyzing model metrics.
 ## Installation
 1. Clone this source code repository - ssh method :
    ```bash
-   git clone git@github.com:dalila-mlp/client.git
+   git clone --recurse-submodules -j8 git@github.com:dalila-mlp/client.git
    ```
 
 2. Access the project directory :
