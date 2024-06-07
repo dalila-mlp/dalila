@@ -1,42 +1,50 @@
-# Dalila - client
+# Dalila
+Dalila is a machine learning model management and benchmarking platform for deploying and training models,
+making automated predictions and analyzing model metrics.
 
-Dalila est une plateforme de gestion de modèle d'intelligence artificielle permettant de les déployer, entraîner et faire des prédictions de manière automatisée.
-
-Ce projet est un client web développé avec SvelteKit, Vite.js, TailwindCSS et PNPM sous Docker, et est conçu pour déployer, entraîner et faire des prédictions intuitivement.
-
-## Configuration requise
-- Build-essential - Pour utiliser les commandes Make
-- Docker (version 24) - Pour lancer les conteneurs et avoir docker compose
+## Requirements
+- Build-essential - To use the Make commands.
+- Docker (version 24) - To launch containers.
 
 ## Installation
-1. Clonez ce dépôt de code source :
+1. Clone this source code repository - ssh method :
    ```bash
    git clone git@github.com:dalila-mlp/client.git
    ```
 
-2. Accédez au répertoire du projet :
+2. Access the project directory :
    ```bash
-   cd client
+   cd dalila
    ```
 
-## Configuration de l'API
-Working in progress...
-
-## Lancement du serveur de développement
-1. Lancez le serveur de développement local à l'aide de la commande suivante :
+## Start
+1. To start the project, simply run this command :
    ```bash
    make start
    ```
 
-   Cela démarrera le serveur de développement et vous donnera une URL locale à laquelle vous pouvez accéder pour visualiser le client web.
-
-2. Ouvrez votre navigateur et accédez à l'URL suivante :
+2. Open your browser and go to the following URL to access the client :
    ```
    http://localhost:5000
    ```
 
-   Vous devriez maintenant voir le client web en action !
+   You should now be able to see the web client in action!
+
+3. Open your browser and go to the following URL to access the api :
+   ```
+   http://localhost:80
+   ```
+
+   You should now be able to see the api in action!
+
+4. Open your browser and go to the following URL to access the postgre admin :
+   ```
+   http://localhost:5432
+   ```
+
+   You should now be able to see the postgre admin in action!
 
 ---
 
-Nous espérons que ce guide vous a aidé à démarrer le client web  pour déployer, entraîner et faire des prédictions intuitivement. Si vous avez des questions supplémentaires, n'hésitez pas à nous les poser.
+We hope this guide has helped you get started with the dalila project to deploy, train and make predictions intuitively.
+If you have any further questions, please don't hesitate to ask.
