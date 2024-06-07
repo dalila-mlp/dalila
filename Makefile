@@ -94,6 +94,11 @@ submod:
 init-submod:
 	git submodule update --init --recursive
 
+.PHONY: reset-submod
+# To reset all sub-modules
+reset-submod:
+	git submodule foreach git reset --hard origin/main
+
 ##
 ## Symfony
 ##
