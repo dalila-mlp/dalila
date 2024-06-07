@@ -1,6 +1,8 @@
 [submodule "client"]
 	path = client
 	url = https://github.com/dalila-mlp/client
+    branch = main
 [submodule "api"]
 	path = api
 	url = https://github.com/dalila-mlp/api
+    branch = main
