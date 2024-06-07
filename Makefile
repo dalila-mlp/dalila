@@ -84,6 +84,11 @@ restart:
 	clear
 	make perm sr up logs
 
+.PHONY: submod
+# Fetch code from submodules.
+submod:
+	git submodule update --remote --merge
+
 ##
 ## Symfony
 ##
