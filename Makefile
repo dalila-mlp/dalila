@@ -89,6 +89,11 @@ restart:
 submod:
 	git submodule update --remote --merge
 
+.PHONY: init-submod
+# Initializes the submodule branch.
+init-submod:
+	git submodule update --init --recursive
+
 ##
 ## Symfony
 ##
