@@ -196,6 +196,11 @@ cpr-i:
 cpr-u:
 	${COMPOSER} update
 
+.PHONY: cpr-perm
+# Add the folder to the safe.directory list at the system level
+cpr-perm:
+	${EXEC-API_PHP} git config --global --add safe.directory '*'
+
 ##
 ## Logs
 ##
