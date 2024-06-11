@@ -39,7 +39,7 @@ making automated predictions and analyzing model metrics.
 
 4. Open your browser and go to the following URL to access the postgre admin :
    ```
-   http://localhost:5432
+   http://localhost:8080
    ```
 
    You should now be able to see the postgre admin in action!
