@@ -237,7 +237,7 @@ logs-pgadmin:
 .PHONY: client
 # Enter in client container.
 client:
-	${EXEC} ${DALILA-CLIENT} ${SHELL}
+	${EXEC} ${DALILA-CLIENT}-service ${SHELL}
 
 .PHONY: api
 # Enter in api_php container.
