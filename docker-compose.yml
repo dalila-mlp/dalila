@@ -74,3 +74,14 @@ services:
     volumes:
       - "./pgadmin/docker/dev/servers.json:/pgadmin4/servers.json"
       - "./pgadmin/:/var/lib/pgadmin/"
+  dalila-models_api-service:
+    build:
+      context: "./models-api/"
+      dockerfile: "./docker/dev/Dockerfile"
+    container_name: "dalila-models_api-container"
+    networks:
+      - "dalila-net"
+    ports:
+      - "14506:14506"
+    volumes:
+      - "./models-api/:/models-api/"

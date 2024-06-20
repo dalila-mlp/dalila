@@ -12,6 +12,7 @@ DALILA-API_PHP = dalila-api_php
 DALILA-API_NGINX = dalila-api_nginx
 DALILA-POSTGRES = dalila-postgres
 DALILA-PGADMIN = dalila-pgadmin
+DALILA-MODELS_API = dalila-models_api
 
 EXEC-API_PHP = ${EXEC} ${DALILA-API_PHP}-service
 
@@ -230,6 +231,11 @@ logs-gres:
 logs-pgadmin:
 	docker logs --follow ${DALILA-PGADMIN}-container
 
+.PHONY: logs-models_api
+# Prompt logs of models_api container.
+logs-models_api:
+	docker logs --follow ${DALILA-MODELS_API}-container
+
 ##
 ## Containers
 ##
@@ -253,3 +259,8 @@ gre:
 # Enter in pgadmin container.
 pgadmin:
 	${EXEC} ${DALILA-PGADMIN}-service ${SHELL}
+
+.PHONY: models_api
+# Enter in models_api container.
+models_api:
+	${EXEC} ${DALILA-MODELS_API}-service ${SHELL}
