@@ -6,3 +6,6 @@
 	path = api
 	url = https://github.com/dalila-mlp/api
     branch = main
+[submodule "models-api"]
+	path = models-api
+	url = https://github.com/dalila-mlp/models-api.git
