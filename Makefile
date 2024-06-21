@@ -27,7 +27,7 @@ help:
 
 .PHONY: start
 # Start project.
-start: perm clear sr up cpr-i db cc perm
+start: perm clear sr up cpr-i jwt db cc perm
 
 .PHONY: up
 # Kill all containers, rebuild and up them.
@@ -111,6 +111,11 @@ EXEC_SC = ${EXEC-API_PHP} ${CONSOLE}
 cc:
 	${EXEC} ${DALILA-API_PHP}-service symfony console c:c --no-warmup
 	${EXEC} ${DALILA-API_PHP}-service symfony console c:warmup
+
+.PHONY: jwt
+# Generate the JWT keys.
+jwt:
+	${EXEC} ${DALILA-API_PHP}-service symfony console lexik:jwt:generate-keypair
 
 ##
 ## Symfony - Database
