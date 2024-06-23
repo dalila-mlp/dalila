@@ -17,6 +17,10 @@ making automated predictions and analyzing model metrics.
    cd dalila
    ```
 
+3. Create .env or .env.local files for all submodules.
+
+4. Read all submodules readme.md files !
+
 ## Start
 1. To start the project, simply run this command :
    ```bash
