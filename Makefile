@@ -13,6 +13,7 @@ DALILA-API_NGINX = dalila-api_nginx
 DALILA-POSTGRES = dalila-postgres
 DALILA-PGADMIN = dalila-pgadmin
 DALILA-MODELS_API = dalila-models_api
+DALILA-LLM_API = dalila-llm_api
 
 EXEC-API_PHP = ${EXEC} ${DALILA-API_PHP}-service
 
@@ -115,7 +116,7 @@ cc:
 .PHONY: jwt
 # Generate the JWT keys.
 jwt:
-	${EXEC} ${DALILA-API_PHP}-service symfony console lexik:jwt:generate-keypair
+	${EXEC} ${DALILA-API_PHP}-service symfony console lexik:jwt:generate-keypair --skip-if-exists
 
 ##
 ## Symfony - Database
@@ -241,6 +242,11 @@ logs-pgadmin:
 logs-models_api:
 	docker logs --follow ${DALILA-MODELS_API}-container
 
+.PHONY: logs-llm_api
+# Prompt logs of llm_api container.
+logs-llm_api:
+	docker logs --follow ${DALILA-LLM_API}-container
+
 ##
 ## Containers
 ##
@@ -269,3 +275,8 @@ pgadmin:
 # Enter in models_api container.
 models_api:
 	${EXEC} ${DALILA-MODELS_API}-service ${SHELL}
+
+.PHONY: llm_api
+# Enter in llm_api container.
+llm_api:
+	${EXEC} ${DALILA-LLM_API}-service ${SHELL}
