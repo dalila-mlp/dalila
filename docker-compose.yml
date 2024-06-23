@@ -85,3 +85,14 @@ services:
       - "14506:14506"
     volumes:
       - "./models-api/:/models-api/"
+  dalila-llm_api-service:
+    build:
+      context: "./llm-api/"
+      dockerfile: "./docker/dev/Dockerfile"
+    container_name: "dalila-llm_api-container"
+    networks:
+      - "dalila-net"
+    ports:
+      - "18950:18950"
+    volumes:
+      - "./llm-api/:/llm-api/"
