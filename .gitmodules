@@ -9,3 +9,6 @@
 [submodule "models-api"]
 	path = models-api
 	url = https://github.com/dalila-mlp/models-api.git
+[submodule "llm-api"]
+	path = llm-api
+	url = https://github.com/dalila-mlp/llm-api
