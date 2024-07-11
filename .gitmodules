@@ -1,14 +1,14 @@
 [submodule "client"]
 	path = client
-	url = https://github.com/dalila-mlp/client
+	url = git@github.com:dalila-mlp/client
     branch = main
 [submodule "api"]
 	path = api
-	url = https://github.com/dalila-mlp/api
+	url = git@github.com:dalila-mlp/api
     branch = main
 [submodule "models-api"]
 	path = models-api
-	url = https://github.com/dalila-mlp/models-api.git
+	url = git@github.com:dalila-mlp/models-api.git
 [submodule "llm-api"]
 	path = llm-api
-	url = https://github.com/dalila-mlp/llm-api
+	url = git@github.com:dalila-mlp/llm-api
