@@ -21,6 +21,8 @@ making automated predictions and analyzing model metrics.
 
 4. Read all submodules readme.md files !
 
+5. To make it work, you must be a member of the github private repositories organization and generate your own github token and enter it in the env files.
+
 ## Start
 1. To start the project, simply run this command :
    ```bash
